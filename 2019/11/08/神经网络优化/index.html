@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1 12345678910111213141516171819202122232425262728293031323334353637#coding:utf-8#预测多或预测少的影响一样#0导入模块，生成数据集import tensorflow as tfimport numpy as npBATCH_SIZE = 8SEED = 23455rdm = np.random.RandomState(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="神经网络优化">
+<meta property="og:url" content="http://yoursite.com/2019/11/08/神经网络优化/index.html">
+<meta property="og:site_name" content="xuyasuo的博客">
+<meta property="og:description" content="1 12345678910111213141516171819202122232425262728293031323334353637#coding:utf-8#预测多或预测少的影响一样#0导入模块，生成数据集import tensorflow as tfimport numpy as npBATCH_SIZE = 8SEED = 23455rdm = np.random.RandomState(">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/11/08/神经网络优化/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/08/神经网络优化/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/08/神经网络优化/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/08/神经网络优化/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/08/神经网络优化/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/08/神经网络优化/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/08/神经网络优化/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/08/神经网络优化/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/08/神经网络优化/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/08/神经网络优化/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/08/神经网络优化/10.png">
+<meta property="og:updated_time" content="2019-11-08T13:48:41.879Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="神经网络优化">
+<meta name="twitter:description" content="1 12345678910111213141516171819202122232425262728293031323334353637#coding:utf-8#预测多或预测少的影响一样#0导入模块，生成数据集import tensorflow as tfimport numpy as npBATCH_SIZE = 8SEED = 23455rdm = np.random.RandomState(">
+<meta name="twitter:image" content="http://yoursite.com/2019/11/08/神经网络优化/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/08/神经网络优化/">
+
+
+
+
+
+  <title>神经网络优化 | xuyasuo的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xuyasuo的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/08/神经网络优化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xuli">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/yasuo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xuyasuo的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">神经网络优化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-08T21:17:29+08:00">
+                2019-11-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><p><img src="1.png" alt><br><img src="2.png" alt></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="comment">#预测多或预测少的影响一样</span></span><br><span class="line"><span class="comment">#0导入模块，生成数据集</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">BATCH_SIZE = <span class="number">8</span></span><br><span class="line">SEED = <span class="number">23455</span></span><br><span class="line"></span><br><span class="line">rdm = np.random.RandomState(SEED)</span><br><span class="line">X = rdm.rand(<span class="number">32</span>,<span class="number">2</span>)</span><br><span class="line">Y_ = [[x1+x2+(rdm.rand()/<span class="number">10.0</span><span class="number">-0.05</span>)] <span class="keyword">for</span> (x1,x2) <span class="keyword">in</span> X]</span><br><span class="line"></span><br><span class="line"><span class="comment">#1定义神经网络的输入、参数和输出，定义前向传播过程。</span></span><br><span class="line">x = tf.placeholder(tf.float32,shape=(<span class="literal">None</span>,<span class="number">2</span>))</span><br><span class="line">y_ = tf.placeholder(tf.float32,shape=(<span class="literal">None</span>,<span class="number">1</span>))</span><br><span class="line">w1 = tf.Variable(tf.random_normal([<span class="number">2</span>,<span class="number">1</span>],stddev=<span class="number">1</span>,seed=<span class="number">1</span>))</span><br><span class="line">y = tf.matmul(x,w1)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2定义损失函数及反向传播方法。</span></span><br><span class="line"><span class="comment">#定义损失函数为MSE，反向传播方法为梯度下降。</span></span><br><span class="line">loss_mse = tf.reduce_mean(tf.square(y_-y))</span><br><span class="line">train_step = tf.train.GradientDescentOptimizer(<span class="number">0.001</span>).minimize(loss_mse)</span><br><span class="line"></span><br><span class="line"><span class="comment">#生成会话，训练STEPS轮</span></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">init_op = tf.global_variables_initializer()</span><br><span class="line">sess.run(init_op)</span><br><span class="line">STEPS = <span class="number">20000</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(STEPS):</span><br><span class="line">start = (i*BATCH_SIZE)%<span class="number">32</span></span><br><span class="line">end = (i*BATCH_SIZE)%<span class="number">32</span> + BATCH_SIZE</span><br><span class="line">sess.run(train_step,feed_dict=&#123;x:X[start:end],y_:Y_[start:end]&#125;)</span><br><span class="line"><span class="keyword">if</span> i %<span class="number">500</span> == <span class="number">0</span>:</span><br><span class="line"><span class="keyword">print</span> <span class="string">"After %d training steps, w1 is"</span>%(i)</span><br><span class="line"><span class="keyword">print</span>  sess.run(w1)</span><br><span class="line"><span class="keyword">print</span>  <span class="string">"Final w1 is:\n"</span>,sess.run(w1)</span><br><span class="line"><span class="comment">#在本代码#2中尝试其他反向传播方法，看对收敛速度的影响，把体会写到笔记中</span></span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下:</p>
+<p><img src="3.png" alt></p>
+<p>由上述代码可知，本例中神经网络预测模型为 y = w1<em>x1 + w2</em>x2，损失函数采用均方误差。通过使 损失函数值(loss)不断降低，神经网络模型得到最终参数 w1=0.98，w2=1.02，销量预测结果为 y = 0.98<em>x1 + 1.02</em>x2。由于在生成数据集时，标准答案为 y = x1 + x2，因此，销量预测结果和标准 答案已非常接近，说明该神经网络预测酸奶日销量正确。<br><strong>自定义损失函数:根据问题的实际情况，定制合理的损失函数。</strong></p>
+<p>例如: 对于预测酸奶日销量问题，如果预测销量大于实际销量则会损失成本;如果预测销量小于实际销量则 会损失利润。在实际生活中，往往制造一盒酸奶的成本和销售一盒酸奶的利润是不等价的。因此，需 要使用符合该问题的自定义损失函数。<br>自定义损失函数为:loss = ∑𝑛𝑓(y_, y)<br>其中，损失定义成分段函数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f(y_,y)=𝑃𝑅𝑂𝐹𝐼𝑇∗(𝑦_−𝑦) 𝑦&lt;𝑦_ </span><br><span class="line">𝐶𝑂𝑆𝑇∗(𝑦−𝑦_)  𝑦&gt;=𝑦_</span><br></pre></td></tr></table></figure>
+
+<p>损失函数表示，若预测结果 y 小于标准答案 y_，损失函数为利润乘以预测结果 y 与标准答案 y_之差; 若预测结果 y 大于标准答案 y_，损失函数为成本乘以预测结果 y 与标准答案 y_之差。<br>用 Tensorflow 函数表示为:<br>loss = tf.reduce_sum(tf.where(tf.greater(y,y_),COST(y-y_),PROFIT(y_-y)))<br>1 若酸奶成本为 1 元，酸奶销售利润为 9 元，则制造成本小于酸奶利润，因此希望预测的结果 y 多<br>一些。采用上述的自定义损失函数，训练神经网络模型。<br>代码如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="comment">#成本9元，利润1元</span></span><br><span class="line"><span class="comment">#预测多或预测少的影响一样</span></span><br><span class="line"><span class="comment">#0导入模块，生成数据集</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">BATCH_SIZE = <span class="number">8</span></span><br><span class="line">SEED = <span class="number">23455</span></span><br><span class="line">COST = <span class="number">9</span></span><br><span class="line">PROFIT = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">rdm = np.random.RandomState(SEED)</span><br><span class="line">X = rdm.rand(<span class="number">32</span>,<span class="number">2</span>)</span><br><span class="line">Y_ = [[x1+x2+(rdm.rand()/<span class="number">10.0</span><span class="number">-0.05</span>)] <span class="keyword">for</span> (x1,x2) <span class="keyword">in</span> X]</span><br><span class="line"></span><br><span class="line"><span class="comment">#1定义神经网络的输入、参数和输出，定义前向传播过程。</span></span><br><span class="line">x = tf.placeholder(tf.float32,shape=(<span class="literal">None</span>,<span class="number">2</span>))</span><br><span class="line">y_ = tf.placeholder(tf.float32,shape=(<span class="literal">None</span>,<span class="number">1</span>))</span><br><span class="line">w1 = tf.Variable(tf.random_normal([<span class="number">2</span>,<span class="number">1</span>],stddev=<span class="number">1</span>,seed=<span class="number">1</span>))</span><br><span class="line">y = tf.matmul(x,w1)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2定义损失函数及反向传播方法。</span></span><br><span class="line"><span class="comment">#定义损失函数使得预测少了的损失大，于是应该向便多的方向预测。反向传播方法为梯度下降。</span></span><br><span class="line">loss_mse = tf.reduce_sum(tf.where(tf.greater(y,y_),(y-y_)*COST,(y_-y)*PROFIT))</span><br><span class="line">train_step = tf.train.GradientDescentOptimizer(<span class="number">0.001</span>).minimize(loss_mse)</span><br><span class="line"></span><br><span class="line"><span class="comment">#生成会话，训练STEPS轮</span></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">init_op = tf.global_variables_initializer()</span><br><span class="line">sess.run(init_op)</span><br><span class="line">STEPS = <span class="number">20000</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(STEPS):</span><br><span class="line">start = (i*BATCH_SIZE)%<span class="number">32</span></span><br><span class="line">end = (i*BATCH_SIZE)%<span class="number">32</span> + BATCH_SIZE</span><br><span class="line">sess.run(train_step,feed_dict=&#123;x:X[start:end],y_:Y_[start:end]&#125;)</span><br><span class="line"><span class="keyword">if</span> i %<span class="number">500</span> == <span class="number">0</span>:</span><br><span class="line"><span class="keyword">print</span> <span class="string">"After %d training steps, w1 is"</span>%(i)</span><br><span class="line"><span class="keyword">print</span>  sess.run(w1)</span><br><span class="line"><span class="keyword">print</span>  <span class="string">"Final w1 is:\n"</span>,sess.run(w1)</span><br><span class="line"><span class="comment">#在本代码#2中尝试其他反向传播方法，看对收敛速度的影响，把体会写到笔记中</span></span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下:</p>
+<p><img src="4.png" alt></p>
+<p><strong>交叉熵(Cross Entropy):表示两个概率分布之间的距离。交叉熵越大，两个概率分布距离越远，两 个概率分布越相异;交叉熵越小，两个概率分布距离越近，两个概率分布越相似。 交叉熵计算公式:𝐇(𝐲_ , 𝐲) = −∑𝐲_ ∗ 𝒍𝒐𝒈 𝒚<br>用 Tensorflow 函数表示为</strong><br>ce= -tf.reduce_mean(y_* tf.log(tf.clip_by_value(y, 1e-12, 1.0)))</p>
+<p><img src="4.png" alt></p>
+<h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><p><strong>学习率 learning_rate:表示了每次参数更新的幅度大小。学习率过大，会导致待优化的参数在最 小值附近波动，不收敛;学习率过小，会导致待优化的参数收敛缓慢。 在训练过程中，参数的更新向着损失函数梯度下降的方向。<br>参数的更新公式为:<br>𝒘𝒏+𝟏 = 𝒘𝒏 − 𝒍𝒆𝒂𝒓𝒏𝒊𝒏𝒈_𝒓𝒂𝒕𝒆𝛁</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="comment">#设损失函数 loss=(w+1)^2,令w初值是常数5。反向传播就是求最优w，即求最小loss对应的w值</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="comment">#定义待优化参数w初值5</span></span><br><span class="line">w = tf.Variable(tf.constant(<span class="number">5</span>,dtype=tf.float32))</span><br><span class="line"><span class="comment">#定义损失函数loss</span></span><br><span class="line">loss = tf.square(w+<span class="number">1</span>)</span><br><span class="line"><span class="comment">#定义反向传播方法</span></span><br><span class="line">train_step = tf.train.GradientDescentOptimizer(<span class="number">0.2</span>).minimize(loss)</span><br><span class="line"><span class="comment">#生成会话，训练40轮</span></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">init_op = tf.global_variables_initializer()</span><br><span class="line">sess.run(init_op)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">40</span>):</span><br><span class="line">sess.run(train_step)</span><br><span class="line">w_val = sess.run(w)</span><br><span class="line">loss_val = sess.run(loss)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"After %s steps: w is %f.   loss is %f"</span> % (i, w_val,loss_val)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下:<br><img src="5.png" alt><br>由结果可知，随着损失函数值的减小，w 无限趋近于-1，模型计算推测出最优参数 w = -1。<br><strong>学习率的设置 学习率过大，会导致待优化的参数在最小值附近波动，不收敛;学习率过小，会导致待优化的参数收 敛缓慢。</strong></p>
+<p><strong>指数衰减学习率:学习率随着训练轮数变化而动态更新</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="comment">#设损失函数 loss=(w+1)^2,令w初值是常数10。反向传播就是求最优w，即求最小loss对应的w值</span></span><br><span class="line"><span class="comment">#使用指数衰减的学习率，在迭代初期得到较高的下降速度，可以在较小的训练轮数下取的更优收敛度</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">LEARNING_RATE_BASE = <span class="number">0.1</span> <span class="comment">#最初学习率</span></span><br><span class="line">LEARNING_RATE_DECAY = <span class="number">0.99</span> <span class="comment">#学习率衰减率</span></span><br><span class="line">LEARNING_RATE_STEP = <span class="number">1</span> <span class="comment">#喂入多少轮BATCH_SIZE后，更新一次学习率，一般设为：总样本数/BATCH_SIZE</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#运行了几轮BATCH_SIZE的计数器，初值给0，设为不被训练</span></span><br><span class="line">global_step = tf.Variable(<span class="number">0</span>,trainable=<span class="literal">False</span>)</span><br><span class="line"><span class="comment">#定义指数下降学习率</span></span><br><span class="line">learning_rate = tf.train.exponential_decay(LEARNING_RATE_BASE,global_step,LEARNING_RATE_STEP,LEARNING_RATE_DECAY,</span><br><span class="line">staircase=<span class="literal">True</span>)</span><br><span class="line"><span class="comment">#定义待优化参数，初值给10</span></span><br><span class="line">w = tf.Variable(tf.constant(<span class="number">5</span>,dtype=tf.float32))</span><br><span class="line"><span class="comment">#定义损失函数loss</span></span><br><span class="line">loss = tf.square(w+<span class="number">1</span>)</span><br><span class="line"><span class="comment">#定义反向传播方法</span></span><br><span class="line">train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss,global_step=global_step)</span><br><span class="line"><span class="comment">#生成会话，训练40轮</span></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">init_op = tf.global_variables_initializer()</span><br><span class="line">sess.run(init_op)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">40</span>):</span><br><span class="line">sess.run(train_step)</span><br><span class="line">learning_rate_val = sess.run(learning_rate)</span><br><span class="line">global_step_val = sess.run(global_step)</span><br><span class="line">w_val = sess.run(w)</span><br><span class="line">loss_val = sess.run(loss)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"After %s steps: global_step is %f , learning rate is %f, w is %f.   loss is %f"</span> % (i,global_step_val,learning_rate_val, w_val,loss_val)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下:<br><img src="6.png" alt><br>由结果可以看出，随着训练轮数增加学习率在不断减小。</p>
+<h2 id="3"><a href="#3" class="headerlink" title="3"></a>3</h2><p>滑动平均:记录了一段时间内模型中所有参数 w 和 b 各自的平均值。利用滑动平均值可以增强模 型的泛化能力。<br>滑动平均值(影子)计算公式:<br>影子 = 衰减率 * 影子 +(1 - 衰减率)* 参数<br>其中，衰减率 = 𝐦𝐢𝐧 {𝑴𝑶𝑽𝑰𝑵𝑮𝑨𝑽𝑬𝑹𝑨𝑮𝑬𝑫𝑬𝑪𝑨𝒀 , 𝟏+轮数 /10+轮数}，影子初值=参数初值<br>√用 Tesnsorflow 函数表示为:<br>√ema = tf.train.ExponentialMovingAverage(MOVING_AVERAGE_DECAY，global_step) 其中，MOVING_AVERAGE_DECAY 表示滑动平均衰减率，一般会赋接近 1 的值，global_step 表示当前 训练了多少轮。<br>√ema_op = ema.apply(tf.trainable_variables()) 其中，ema.apply()函数实现对括号内参数求滑动平均，tf.trainable_variables()函数实现把所有 待训练参数汇总为列表。<br>√with tf.control_dependencies([train_step, ema_op]):<br>train_op = tf.no_op(name=’train’)<br>其中，该函数实现将滑动平均和训练过程同步运行。<br>查看模型中参数的平均值，可以用 ema.average()函数。<br>例如:<br>在神经网络模型中，将 MOVING_AVERAGE_DECAY 设置为 0.99，参数 w1 设置为 0，w1 的滑动平均值设 置为 0。<br>1开始时，轮数 global_step 设置为 0，参数 w1 更新为 1，则 w1 的滑动平均值为:<br>w1 滑动平均值=min(0.99,1/10)<em>0+(1– min(0.99,1/10)</em>1 = 0.9<br>3 当轮数 global_step 设置为 100 时，参数 w1 更新为 10，以下代码 global_step 保持为 100，每<br>次执行滑动平均操作影子值更新，则滑动平均值变为:<br>w1 滑动平均值=min(0.99,101/110)<em>0.9+(1– min(0.99,101/110)</em>10 = 0.826+0.818=1.644 3再次运行，参数 w1 更新为 1.644，则滑动平均值变为:<br>w1 滑动平均值=min(0.99,101/110)<em>1.644+(1– min(0.99,101/110)</em>10 = 2.328 4再次运行，参数 w1 更新为 2.328，则滑动平均值:<br>w1 滑动平均值=2.956<br>代码如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line"><span class="comment">#1. 定义变量及滑动平均类</span></span><br><span class="line"><span class="comment">#定义一个32位浮点变量，初始值位0.0  这个代码就是不断更新w1参数，优化w1参数滑动平均做了一个w1的影子</span></span><br><span class="line">w1 = tf.Variable(<span class="number">0</span>,dtype=tf.float32)</span><br><span class="line"><span class="comment">#定义num_updates(NN的迭代轮数)，初始值位0，不可被优化（训练），这个参数不训练</span></span><br><span class="line">global_step = tf.Variable(<span class="number">0</span>,trainable=<span class="literal">False</span>)</span><br><span class="line"><span class="comment">#实例化滑动平均类，给删减率为0。99，当前轮数global_step</span></span><br><span class="line">MOVING_AVERAGE_DECAY = <span class="number">0.99</span></span><br><span class="line">ema = tf.train.ExponentialMovingAverage(MOVING_AVERAGE_DECAY,global_step)</span><br><span class="line"><span class="comment">#ema.apply后的括号里是更新列表，每次运行sess.run(ema_op)时，对更新列表中的元素求滑动平均值。</span></span><br><span class="line"><span class="comment">#在实际应用中会使用tf.trainble_variable()自动将所有待训练的参数汇总为列表</span></span><br><span class="line"><span class="comment">#ema_op = em.apply([w1])</span></span><br><span class="line">ema_op = ema.apply(tf.trainable_variables())</span><br><span class="line"></span><br><span class="line"><span class="comment">#2. 查看不同迭代中变量取值的变化。</span></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line"><span class="comment">#初始化</span></span><br><span class="line">init_op = tf.global_variables_initializer()</span><br><span class="line">sess.run(init_op)</span><br><span class="line"><span class="comment">#用ema.average(w1)获取w1滑动平均值  （要运行多个节点，作为列表中的元素列出，写在sess.run中）</span></span><br><span class="line"><span class="keyword">print</span> sess.run([w1,ema.average(w1)])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 参数w1的值赋为1</span></span><br><span class="line">sess.run(tf.assign(w1, <span class="number">1</span>))</span><br><span class="line">sess.run(ema_op)</span><br><span class="line"><span class="keyword">print</span> sess.run([w1,ema.average(w1)])</span><br><span class="line"></span><br><span class="line"><span class="comment">#更新step和w1的值，模拟出100轮迭代后，参数w1变化为10</span></span><br><span class="line">sess.run(tf.assign(global_step,<span class="number">100</span>))</span><br><span class="line">sess.run(tf.assign(w1,<span class="number">10</span>))</span><br><span class="line">sess.run(ema_op)</span><br><span class="line"><span class="keyword">print</span> sess.run([w1,ema.average(w1)])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每次sess.run会更新一次w1的滑动平均值</span></span><br><span class="line">sess.run(ema_op)</span><br><span class="line"><span class="keyword">print</span> sess.run([w1, ema.average(w1)])</span><br><span class="line"></span><br><span class="line">sess.run(ema_op)</span><br><span class="line"><span class="keyword">print</span> sess.run([w1, ema.average(w1)])</span><br><span class="line"></span><br><span class="line">sess.run(ema_op)</span><br><span class="line"><span class="keyword">print</span> sess.run([w1,ema.average(w1)])</span><br><span class="line"></span><br><span class="line">sess.run(ema_op)</span><br><span class="line"><span class="keyword">print</span> sess.run([w1, ema.average(w1)])</span><br><span class="line"></span><br><span class="line">sess.run(ema_op)</span><br><span class="line"><span class="keyword">print</span> sess.run([w1, ema.average(w1)])</span><br><span class="line"></span><br><span class="line">sess.run(ema_op)</span><br><span class="line"><span class="keyword">print</span> sess.run([w1, ema.average(w1)])</span><br><span class="line"></span><br><span class="line"><span class="comment">#更改MOVING_AVERAGE_DECAY 为 0.1 看影子追随速度</span></span><br></pre></td></tr></table></figure>
+
+<p>运行程序，结果如下:<br><img src="7.png" alt></p>
+<p>从运行结果可知，最初参数 w1 和滑动平均值都是 0;参数 w1 设定为 1 后，滑动平均值变为 0.9; 当迭代轮数更新为 100 轮时，参数 w1 更新为 10 后，滑动平均值变为 1.644。随后每执行一次，参数 w1 的滑动平均值都向参数 w1 靠近。可见，滑动平均追随参数的变化而变化。</p>
+<h2 id="4"><a href="#4" class="headerlink" title="4"></a>4</h2><p>√过拟合:神经网络模型在训练数据集上的准确率较高，在新的数据进行预测或分类时准确率较 低，说明模型的泛化能力差。<br>√正则化:在损失函数中给每个参数 w 加上权重，引入模型复杂度指标，从而抑制模型噪声，减小 过拟合。<br>使用正则化后，损失函数 loss 变为两项之和:<br><code>loss = loss(y 与 y_) + REGULARIZER*loss(w)</code>其中，第一项是预测结果与标准答案之间的差距，如之前讲过的交叉熵、均方误差等;第二项是正则<br>化计算结果。<br>√正则化计算方法:<br>1 L1 正则化: 𝒍𝒐𝒔𝒔𝑳𝟏 = ∑𝒊|𝒘𝒊|<br>用 Tesnsorflow 函数表示:loss(w) = tf.contrib.layers.l1_regularizer(REGULARIZER)(w) 2 L2 正则化: 𝒍𝒐𝒔𝒔𝑳𝟐 = ∑𝒊|𝒘𝒊|𝟐<br>用 Tesnsorflow 函数表示:loss(w) = tf.contrib.layers.l2_regularizer(REGULARIZER)(w) √用 Tesnsorflow 函数实现正则化:<br>tf.add_to_collection(‘losses’, tf.contrib.layers.l2_regularizer(regularizer)(w) loss = cem + tf.add_n(tf.get_collection(‘losses’))</p>
+<p>√matplotlib 模块:Python 中的可视化工具模块，实现函数可视化 终端安装指令:sudo pip install matplotlib<br>√函数 plt.scatter():利用指定颜色实现点(x,y)的可视化 plt.scatter (x 坐标, y 坐标, c=”颜色”)<br>plt.show()<br>√收集规定区域内所有的网格坐标点:<br>xx, yy = np.mgrid[起:止:步长, 起:止:步长] #找到规定区域以步长为分辨率的行列网格坐标点 grid = np.c_[xx.ravel(), yy.ravel()] #收集规定区域内所有的网格坐标点 √plt.contour()函数:告知 x、y 坐标和各点高度，用 levels 指定高度的点描上颜色 plt.contour (x 轴坐标值, y 轴坐标值, 该点的高度, levels=[等高线的高度])<br>plt.show()</p>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding:utf-8</span></span><br><span class="line"><span class="comment"># 0 导入模块，生成模拟数据集</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">BATCH_SIZE = <span class="number">30</span></span><br><span class="line">seed = <span class="number">2</span></span><br><span class="line"><span class="comment"># 基于seed产生随机数</span></span><br><span class="line">rdm = np.random.RandomState(seed)</span><br><span class="line"><span class="comment"># 随机数返回300行2列的矩阵，表示300组坐标点x0,x1）作为输入数据集</span></span><br><span class="line">X = rdm.randn(<span class="number">300</span>,<span class="number">2</span>)</span><br><span class="line"><span class="comment"># 从X这个300行2列的矩阵中取出一行，判断如果两个坐标的平方和小于2，给Y赋值1，其余赋值0</span></span><br><span class="line"><span class="comment"># 作为输入数据集的标签（正确答案）</span></span><br><span class="line">Y_ = [int(x0*x0 + x1*x1 &lt;<span class="number">2</span>) <span class="keyword">for</span> (x0,x1) <span class="keyword">in</span> X]</span><br><span class="line"><span class="comment"># 遍历Y中的每个元素，1赋值'red'其余赋值'blue'，这样可视化显示时人可以直观区分</span></span><br><span class="line">Y_c = [[<span class="string">'red'</span> <span class="keyword">if</span> y <span class="keyword">else</span> <span class="string">'blue'</span>] <span class="keyword">for</span> y <span class="keyword">in</span> Y_]</span><br><span class="line"><span class="comment"># 对数据集X和标签Y进行shape整理，第一个元素为-1表示，随第二个参数计算得到，第二个元素表示多少列，把X整理为n行2列，把Y整理为n行1列</span></span><br><span class="line">X = np.vstack(X).reshape(<span class="number">-1</span>,<span class="number">2</span>)</span><br><span class="line">Y_ = np.vstack(Y_).reshape(<span class="number">-1</span>,<span class="number">1</span>)</span><br><span class="line"><span class="keyword">print</span> X</span><br><span class="line"><span class="keyword">print</span> Y_</span><br><span class="line"><span class="keyword">print</span> Y_c</span><br><span class="line"><span class="comment"># 用plt.scatter画出数据集X各行中第0列元素和第一列元素的点即各行的（x0，x1），用各行Y_c对应的值表示颜色（c是color的缩写）</span></span><br><span class="line">plt.scatter(X[:,<span class="number">0</span>],X[:,<span class="number">1</span>],c=np.squeeze(Y_c))</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line"><span class="comment">#定义神经网络的输入、参数和输出，定义前向传播过程</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_weight</span><span class="params">(shape,regularizer)</span>:</span></span><br><span class="line">w = tf.Variable(tf.random_normal(shape),dtype=tf.float32)</span><br><span class="line">tf.add_to_collection(<span class="string">'losses'</span>,tf.contrib.layers.l2_regularizer(regularizer)(w))</span><br><span class="line"><span class="keyword">return</span> w</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_bias</span><span class="params">(shape)</span>:</span></span><br><span class="line">b = tf.Variable(tf.constant(<span class="number">0.01</span>,shape=shape))</span><br><span class="line"><span class="keyword">return</span> b</span><br><span class="line"></span><br><span class="line">x = tf.placeholder(tf.float32,shape=(<span class="literal">None</span>,<span class="number">2</span>))</span><br><span class="line">y_ = tf.placeholder(tf.float32,shape=(<span class="literal">None</span>,<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">w1 = get_weight([<span class="number">2</span>,<span class="number">11</span>],<span class="number">0.01</span>)</span><br><span class="line">b1 = get_bias([<span class="number">11</span>])</span><br><span class="line">y1 = tf.nn.relu(tf.matmul(x,w1)+b1)</span><br><span class="line"></span><br><span class="line">w2 = get_weight([<span class="number">11</span>,<span class="number">1</span>],<span class="number">0.01</span>)</span><br><span class="line">b2 = get_bias([<span class="number">1</span>])</span><br><span class="line">y = tf.matmul(y1,w2)+b2 <span class="comment">#输出层不过激活</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#定义损失函数</span></span><br><span class="line">loss_mse = tf.reduce_mean(tf.square(y-y_))        <span class="comment">#均方误差的损失函数</span></span><br><span class="line">loss_total = loss_mse + tf.add_n(tf.get_collection(<span class="string">'losses'</span>))   <span class="comment">#均方误差的损失函数加上每一个正则化w的损失</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#定义反向传播方法：不含正则化</span></span><br><span class="line">train_step = tf.train.AdamOptimizer(<span class="number">0.0001</span>).minimize(loss_mse)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">init_op = tf.global_variables_initializer()</span><br><span class="line">sess.run(init_op)</span><br><span class="line">STEPS = <span class="number">40000</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(STEPS):</span><br><span class="line">start = (i*BATCH_SIZE)%<span class="number">300</span></span><br><span class="line">end = start+BATCH_SIZE</span><br><span class="line">sess.run(train_step,feed_dict=&#123;x:X[start:end],y_:Y_[start:end]&#125;)</span><br><span class="line"><span class="keyword">if</span> i % <span class="number">2000</span> ==<span class="number">0</span>:</span><br><span class="line">loss_mse_v = sess.run(loss_mse,feed_dict=&#123;x:X,y_:Y_&#125;)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"After %d steps, loss is %f"</span>%(i,loss_mse_v))</span><br><span class="line"><span class="comment"># xx在 -3到3之间以步长为0。01，yy在 -3到3之间以步长0。01，生成二维网格坐标点</span></span><br><span class="line">xx,yy = np.mgrid[<span class="number">-3</span>:<span class="number">3</span>:<span class="number">0.01</span>,<span class="number">-3</span>:<span class="number">3</span>:<span class="number">0.01</span>]</span><br><span class="line"><span class="comment">#将xx，yy拉直，并合并成一个2列的矩阵，得到一个网格坐标点的集合</span></span><br><span class="line">grid = np.c_[xx.ravel(),yy.ravel()]</span><br><span class="line"><span class="comment">#将网格坐标点喂入神经网络，probs为输出</span></span><br><span class="line">probs = sess.run(y,feed_dict=&#123;x:grid&#125;)</span><br><span class="line"><span class="comment">#probs的shape调整成xx的样子</span></span><br><span class="line">probs = probs.reshape(xx.shape)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"w1:\n"</span>,sess.run(w1)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"b1:\n"</span>,sess.run(b1)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"w2:\n"</span>,sess.run(w2)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"b2:\n"</span>,sess.run(b2)</span><br><span class="line"></span><br><span class="line">plt.scatter(X[:,<span class="number">0</span>],X[:,<span class="number">1</span>],c=np.squeeze(Y_c))</span><br><span class="line">plt.contour(xx,yy,probs,levels=[<span class="number">0.5</span>])</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#定义反向传播方法：包含正则化</span></span><br><span class="line">train_step = tf.train.AdamOptimizer(<span class="number">0.0001</span>).minimize(loss_total)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">init_op = tf.global_variables_initializer()</span><br><span class="line">sess.run(init_op)</span><br><span class="line">STEPS = <span class="number">40000</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(STEPS):</span><br><span class="line">start = (i*BATCH_SIZE) % <span class="number">300</span></span><br><span class="line">end = start+BATCH_SIZE</span><br><span class="line">sess.run(train_step,feed_dict=&#123;x:X[start:end],y_:Y_[start:end]&#125;)</span><br><span class="line"><span class="keyword">if</span> i % <span class="number">2000</span> ==<span class="number">0</span>:</span><br><span class="line">loss_v = sess.run(loss_total,feed_dict=&#123;x:X,y_:Y_&#125;)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"After %d steps, loss is: %f"</span>%(i,loss_v))</span><br><span class="line"></span><br><span class="line">xx,yy = np.mgrid[<span class="number">-3</span>:<span class="number">3</span>:<span class="number">0.01</span>,<span class="number">-3</span>:<span class="number">3</span>:<span class="number">0.01</span>]</span><br><span class="line">grid = np.c_[xx.ravel(),yy.ravel()]</span><br><span class="line">probs = sess.run(y,feed_dict=&#123;x:grid&#125;)</span><br><span class="line">probs = probs.reshape(xx.shape)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"w1:\n"</span>, sess.run(w1)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"b1:\n"</span>, sess.run(b1)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"w2:\n"</span>, sess.run(w2)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"b2:\n"</span>, sess.run(b2)</span><br><span class="line">plt.scatter(X[:,<span class="number">0</span>],X[:,<span class="number">1</span>],c=np.squeeze(Y_c))</span><br><span class="line">plt.contour(xx,yy,probs,levels=[<span class="number">0.5</span>])</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>执行代码，效果如下:<br>首先，数据集实现可视化，x0 + x1 &lt; 2 的点显示红色， x0 + x1 ≥2 的点显示蓝色，如图所示:<br><img src="8.png" alt><br>接着，执行无正则化的训练过程，把红色的点和蓝色的点分开，生成曲线如下图所示:<br><img src="9.png" alt><br>最后，执行有正则化的训练过程，把红色的点和蓝色的点分开，生成曲线如下图所示:<br><img src="10.png" alt><br>对比无正则化与有正则化模型的训练结果，可看出有正则化模型的拟合曲线平滑，模型具有更好的泛 化能力。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/08/搭建神经网络/" rel="next" title="搭建神经网络">
+                <i class="fa fa-chevron-left"></i> 搭建神经网络
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/yasuo.png" alt="xuli">
+            
+              <p class="site-author-name" itemprop="name">xuli</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/619496775" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:x619496775@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/yourname" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://youtube.com/yourname" target="_blank" title="YouTube">
+                      
+                        <i class="fa fa-fw fa-youtube"></i>YouTube</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/yourname" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1"><span class="nav-number">1.</span> <span class="nav-text">1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2"><span class="nav-number">2.</span> <span class="nav-text">2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3"><span class="nav-number">3.</span> <span class="nav-text">3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4"><span class="nav-number">4.</span> <span class="nav-text">4</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xuli</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

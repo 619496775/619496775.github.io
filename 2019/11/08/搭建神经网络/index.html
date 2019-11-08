@@ -92,13 +92,13 @@
 <meta property="og:image" content="http://yoursite.com/2019/11/08/搭建神经网络/9D2B545D-FB5A-4F92-8A91-1097028456C1.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/08/搭建神经网络/B85D3AD7-222A-465F-9204-3E922DADBCF5.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/08/搭建神经网络/9EA5DCC2-56AA-4938-B0FE-A0B18172EEF8.png">
-<meta property="og:image" content="http://yoursite.com/2019/11/08/搭建神经网络/B1CC3BE4-C8DF-47A5-BDBD-5FBB53258D33">
+<meta property="og:image" content="http://yoursite.com/2019/11/08/搭建神经网络/B1CC3BE4-C8DF-47A5-BDBD-5FBB53258D33.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/08/搭建神经网络/CA0A87DF-C244-43DB-B714-256BEFB38AFA.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/08/搭建神经网络/387DB8FF-6577-463A-B9E4-F12C01FD9CFD.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/08/搭建神经网络/F2B1E8D6-A6B7-46D3-8B4A-8CC836BB74B4.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/08/搭建神经网络/4F5FFCEC-DEC3-4BB4-B517-FB675F3BC83A.png">
 <meta property="og:image" content="http://yoursite.com/2019/11/08/搭建神经网络/76F1AA0C-0942-453D-8AF6-2B1B38298113.png">
-<meta property="og:updated_time" content="2019-11-08T13:11:35.878Z">
+<meta property="og:updated_time" content="2019-11-08T13:15:01.489Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建神经网络">
 <meta name="twitter:description" content="搭建神经网络 3.1一、基本概念 基于 Tensorflow 的 NN:用张量表示数据，用计算图搭建神经网络，用会话执 行计算图，优化线上的权重(参数)，得到模型。  张量:张量就是多维数组(列表)，用“阶”表示张量的维度。0 阶张量称作标量，表示一个单独的数; 举例 S=1231 阶张量称作向量，表示一个一维数组; 举例 V=[1,2,3]2 阶张量称作矩阵，表示一个二维数组，它可以有 i 行">
@@ -395,10 +395,7 @@
 
 </li>
 </ul>
-<p>举例</p>
-<p>#引入模块</p>
-<p>#定义一个 2 阶张量等于[[1.0,2.0]] #定义一个 2 阶张量等于[[3.0],[4.0]] #实现 xw 矩阵乘法</p>
-<p>#打印出结果<br>对于刚刚所述计算图，我们执行 Session()会话可得到矩阵相乘结果:</p>
+<p>举例<br>对于刚刚所述计算图，我们执行 Session()会话可得到矩阵相乘结果:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf           #引入模块</span><br><span class="line">x = tf.constant([[1.0, 2.0]])     #定义一个 2 阶张量等于[[1.0,2.0]] </span><br><span class="line">w = tf.constant([[3.0], [4.0]])   #定义一个 2 阶张量等于[[3.0],[4.0]]</span><br><span class="line">y = tf.matmul(x, w)               #实现 xw 矩阵乘法</span><br><span class="line">print y</span><br><span class="line">with tf.Session() as sess:</span><br><span class="line">print sess.run(y)</span><br></pre></td></tr></table></figure>
 
 <p>可以打印出这样的结果:<br>Tensor(“matmul:0”, shape(1,1), dtype=float32)<br>[[11.]]<br>我们可以看到，运行 Session()会话前只打印出 y 是个张量的提示，运行 Session() 会话后打印出了 y 的结果 1.0<em>3.0 + 2.0</em>4.0 = 11.0。</p>
@@ -415,7 +412,7 @@
 <p>由此可见，基于神经网络的机器学习主要分为两个过程，即训练过程和使用过程。 训练过程是第一步、第二步、第三步的循环迭代，使用过程是第四步，一旦参数 优化完成就可以固定这些参数，实现特定应用了。<br>很多实际应用中，我们会先使用现有的成熟网络结构，喂入新的数据，训练相应 模型，判断是否能对喂入的从未见过的新数据作出正确响应，再适当更改网络结 构，反复迭代，让机器自动训练参数找出最优结构和参数，以固定专用模型。    </p>
 <h3 id="三、前向传播"><a href="#三、前向传播" class="headerlink" title="三、前向传播"></a>三、前向传播</h3><p><strong>前向传播就是搭建模型的计算过程，让模型具有推理能力，可以针对一组输入 给出相应的输出。</strong></p>
 <p>假如生产一批零件，体积为 x1，重量为 x2，体积和重量就是我们选择的特征，把它们喂入神经网络，当体积和重量这组数据走过神经网络后会得到一个输出。假如输入的特征值是:体积 0.7 重量 0.5<br><img src="7273E014-1476-41A2-9D63-09722B7E4C6F.png" alt><br>由搭建的神经网络可得，隐藏层节点<br><code>a11=x1*w11+x2*w21=0.14+0.15=0.29</code>，同理算得节点 a12=0.32，a13=0.38，最终计算得到输出层 Y=-0.015，这便实现了 前向传播过程。<br><img src="E479142F-CABE-4C72-BA0B-BA99F32C62D8.png" alt><br><img src="9D2B545D-FB5A-4F92-8A91-1097028456C1.png" alt><br><img src="B85D3AD7-222A-465F-9204-3E922DADBCF5.png" alt><br><img src="9EA5DCC2-56AA-4938-B0FE-A0B18172EEF8.png" alt></p>
-<h2 id="3-3"><a href="#3-3" class="headerlink" title="3.3"></a>3.3</h2><h3 id="一、反向传播"><a href="#一、反向传播" class="headerlink" title="一、反向传播"></a>一、反向传播</h3><p><strong>反向传播:训练模型参数，在所有参数上用梯度下降，使 NN 模型在训练数据 上的损失函数最小。<br>损失函数(loss):计算得到的预测值 y 与已知答案 y_的差距。</strong><br>损失函数的计算有很多方法，均方误差 MSE 是比较常用的方法之一。<br><strong>均方误差 MSE:求前向传播计算结果与已知答案之差的平方再求平均。</strong><br><img src="B1CC3BE4-C8DF-47A5-BDBD-5FBB53258D33" alt><br>用 tensorflow 函数表示为:<br>loss_mse = tf.reduce_mean(tf.square(y_ - y))<br><strong>反向传播训练方法:以减小 loss 值为优化目标，有梯度下降、momentum 优化 器、adam 优化器等优化方法。</strong><br>这三种优化方法用 tensorflow 的函数可以表示为:<br>train_step=tf.train.GradientDescentOptimizer(learning_rate).minimize(loss) train_step=tf.train.MomentumOptimizer(learning_rate, momentum).minimize(loss) train_step=tf.train.AdamOptimizer(learning_rate).minimize(loss)<br>三种优化方法区别如下:</p>
+<h2 id="3-3"><a href="#3-3" class="headerlink" title="3.3"></a>3.3</h2><h3 id="一、反向传播"><a href="#一、反向传播" class="headerlink" title="一、反向传播"></a>一、反向传播</h3><p><strong>反向传播:训练模型参数，在所有参数上用梯度下降，使 NN 模型在训练数据 上的损失函数最小。<br>损失函数(loss):计算得到的预测值 y 与已知答案 y_的差距。</strong><br>损失函数的计算有很多方法，均方误差 MSE 是比较常用的方法之一。<br><strong>均方误差 MSE:求前向传播计算结果与已知答案之差的平方再求平均。</strong><br><img src="B1CC3BE4-C8DF-47A5-BDBD-5FBB53258D33.png" alt><br>用 tensorflow 函数表示为:<br>loss_mse = tf.reduce_mean(tf.square(y_ - y))<br><strong>反向传播训练方法:以减小 loss 值为优化目标，有梯度下降、momentum 优化 器、adam 优化器等优化方法。</strong><br>这三种优化方法用 tensorflow 的函数可以表示为:<br>train_step=tf.train.GradientDescentOptimizer(learning_rate).minimize(loss) train_step=tf.train.MomentumOptimizer(learning_rate, momentum).minimize(loss) train_step=tf.train.AdamOptimizer(learning_rate).minimize(loss)<br>三种优化方法区别如下:</p>
 <ol>
 <li>tf.train.GradientDescentOptimizer()使用随机梯度下降算法，使参数沿着 梯度的反方向，即总损失减小的方向移动，实现更新参数。</li>
 </ol>

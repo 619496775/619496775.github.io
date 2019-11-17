@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="笔记阅读2015年发表于ICLR的《VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION》图像分类部分，课程实践采用的是VGG-16模型。 摘要论文探讨在大规模数据集情景下，卷积网络深度对其准确率的影响。我们的主要贡献在于利用3*3小卷积核的网络结构对逐渐加深的网络进行全面的评估，结果表明加深网络深度到16至19层可极">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VGG 论文阅读笔记">
+<meta property="og:url" content="http://yoursite.com/2019/11/17/VGG-论文阅读笔记/index.html">
+<meta property="og:site_name" content="xuyasuo的博客">
+<meta property="og:description" content="笔记阅读2015年发表于ICLR的《VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION》图像分类部分，课程实践采用的是VGG-16模型。 摘要论文探讨在大规模数据集情景下，卷积网络深度对其准确率的影响。我们的主要贡献在于利用3*3小卷积核的网络结构对逐渐加深的网络进行全面的评估，结果表明加深网络深度到16至19层可极">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/11/17/VGG-论文阅读笔记/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/17/VGG-论文阅读笔记/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/17/VGG-论文阅读笔记/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/17/VGG-论文阅读笔记/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/17/VGG-论文阅读笔记/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/17/VGG-论文阅读笔记/6.png">
+<meta property="og:updated_time" content="2019-11-17T15:07:16.081Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="VGG 论文阅读笔记">
+<meta name="twitter:description" content="笔记阅读2015年发表于ICLR的《VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION》图像分类部分，课程实践采用的是VGG-16模型。 摘要论文探讨在大规模数据集情景下，卷积网络深度对其准确率的影响。我们的主要贡献在于利用3*3小卷积核的网络结构对逐渐加深的网络进行全面的评估，结果表明加深网络深度到16至19层可极">
+<meta name="twitter:image" content="http://yoursite.com/2019/11/17/VGG-论文阅读笔记/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/17/VGG-论文阅读笔记/">
+
+
+
+
+
+  <title>VGG 论文阅读笔记 | xuyasuo的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xuyasuo的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/17/VGG-论文阅读笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xuli">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/yasuo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xuyasuo的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">VGG 论文阅读笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-17T22:27:03+08:00">
+                2019-11-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>笔记阅读2015年发表于ICLR的《VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION》图像分类部分，课程实践采用的是VGG-16模型。</p>
+<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>论文探讨在大规模数据集情景下，卷积网络深度对其准确率的影响。我们的主要贡献在于利用3*3小卷积核的网络结构对逐渐加深的网络进行全面的评估，结果表明加深网络深度到16至19层可极大超越前人的网络结构。这些成果是基于2014年的ImageNet挑战赛，该模型在定位和分类跟踪比赛中分别取得了第一名和第二名。同时模型在其他数据集上也有较好的泛化性。我们公开了两个表现最好的卷积神经网络模型，以促进计算机视觉领域模型的进一步研究。</p>
+<h4 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h4><p>卷积网络(ConvNets)成功原因：大型公共图像数据集，如 ImageNet；高性能计算系统，如GPU或大规模分布式集群。<br>前人的工作：人们尝试在AlexNet的原始框架上做一些改进。比如在第一个卷积上使用较小的卷积核以及较小的滑动步长。另一种方法则是在全图以及多个尺寸上，稠密的训练和测试网络。<br>而本文主要关注网络的深度。为此，我们固定网络的其他参数，通过增加卷<br>积层来增加网络深度，这是可行的，因为我们所有层都采用小的3*3卷积核。</p>
+<h4 id="2-卷积配置"><a href="#2-卷积配置" class="headerlink" title="2.卷积配置"></a>2.卷积配置</h4><p>为凸显深度对模型效果的影响，我们所有卷积采用相同配置。本章先介绍卷积网络的通用架构，再描述其评估中的具体细节，最后讨论我们的设计选择以及前人网络的比较。</p>
+<h5 id="2-1架构"><a href="#2-1架构" class="headerlink" title="2.1架构"></a>2.1架构</h5><p>训练输入：固定尺寸224<em>224的RGB图像。<br>预处理：每个像素值减去训练集上的RGB均值。<br>卷积核：一系列3</em>3卷积核堆叠，步长为1，采用padding保持卷积后图像空间分辨率不变。<br>空间池化：紧随卷积“堆”的最大池化，为2*2滑动窗口，步长为2。<br>全连接层：特征提取完成后，接三个全连接层，前两个为4096通道，第三个为1000通道，最后是一个soft-max层，输出概率。</p>
+<p>所有隐藏层都用非线性修正ReLu。</p>
+<h5 id="2-2详细配置"><a href="#2-2详细配置" class="headerlink" title="2.2详细配置"></a>2.2详细配置</h5><p>表1中每列代表不同的网络，只有深度不同（层数计算不包含池化层）。卷积的通道数量很小，第一层仅64通道，每经过一次最大池化，通道数翻倍，知道数量达到512通道。<br>表2展示了每种模型的参数数量，尽管网络加深，但权重并未大幅增加，因为参数量主要集中在全连接层。<br><img src="1.png" alt></p>
+<h5 id="2-3讨论"><a href="#2-3讨论" class="headerlink" title="2.3讨论"></a>2.3讨论</h5><p>两个3<em>3卷积核相当于一个5</em>5卷积核的感受域，三个3<em>3卷积核相当于一个7</em>7卷积核的感受域。</p>
+<p>优点：三个卷积堆叠具有三个非线性修正层，使模型更具判别性；其次三个3<em>3卷积参数量更少，相当于在7</em>7卷积核上加入了正则化。</p>
+<ol start="3">
+<li>分类框架</li>
+</ol>
+<h5 id="3-1训练"><a href="#3-1训练" class="headerlink" title="3.1训练"></a>3.1训练</h5><p>训练方法基本与AlexNet一致，除了多尺度训练图像采样方法不一致。<br>训练采用mini-batch梯度下降法，batch size=256；<br>采用动量优化算法，momentum=0.9；<br>采用L2正则化方法，惩罚系数0.00005；dropout比率设为0.5；<br>初始学习率为0.001，当验证集准确率不再提高时，学习率衰减为原来的0.1倍，总共下降三次；<br>总迭代次数为370K（74epochs）；<br>数据增强采用随机裁剪，水平翻转，RGB颜色变化；<br>设置训练图片大小的两种方法：<br>定义S代表经过各向同性缩放的训练图像的最小边。<br>第一种方法针对单尺寸图像训练，S=256或384，输入图片从中随机裁剪<br>224*224大小的图片，原则上S可以取任意不小于224的值。<br>第二种方法是多尺度训练，每张图像单独从[Smin ,Smax ]中随机选取S来进行尺寸缩放，由于图像中目标物体尺寸不定，因此训练中采用这种方法是有效的，可看作一种尺寸抖动的训练集数据增强。<br>论文中提到，网络权重的初始化非常重要，由于深度网络梯度的不稳定性，不合适的初始化会阻碍网络的学习。因此我们先训练浅层网络，再用训练好的浅层网络去初始化深层网络。</p>
+<h5 id="3-2-测试"><a href="#3-2-测试" class="headerlink" title="3.2 测试"></a>3.2 测试</h5><p>测试阶段，对于已训练好的卷积网络和一张输入图像，采用以下方法分类：<br>首先，图像的最小边被各向同性的缩放到预定尺寸Q；<br>然后，将原先的全连接层改换成卷积层，在未裁剪的全图像上运用卷积网络，输出是一个与输入图像尺寸相关的分类得分图，输出通道数与类别数相同；<br>最后，对分类得分图进行空间平均化，得到固定尺寸的分类得分向量。<br>我们同样对测试集做数据增强，采用水平翻转，最终取原始图像和翻转图像的soft-max分类概率的平均值作为最终得分。<br>由于测试阶段采用全卷积网络，无需对输入图像进行裁剪，相对于多重裁剪效率会更高。但多重裁剪评估和运用全卷积的密集评估是互补的，有助于性能提升。</p>
+<h4 id="4-分类实验"><a href="#4-分类实验" class="headerlink" title="4.分类实验"></a>4.分类实验</h4><h5 id="4-1单尺寸评估"><a href="#4-1单尺寸评估" class="headerlink" title="4.1单尺寸评估"></a>4.1单尺寸评估</h5><p>表3展示单一测试尺寸上的卷积网络性能<br><img src="2.png" alt></p>
+<h5 id="4-2多尺寸评估"><a href="#4-2多尺寸评估" class="headerlink" title="4.2多尺寸评估"></a>4.2多尺寸评估</h5><p>表4展示多个测试尺寸上的卷积网络性能<br><img src="3.png" alt></p>
+<h5 id="4-3-多重裁剪与密集网络评估"><a href="#4-3-多重裁剪与密集网络评估" class="headerlink" title="4.3 多重裁剪与密集网络评估"></a>4.3 多重裁剪与密集网络评估</h5><p>表 5 展示多重裁剪与密集网络对比，并展示两者相融合的效果<br><img src="4.png" alt></p>
+<h5 id="4-4-卷积模型的融合"><a href="#4-4-卷积模型的融合" class="headerlink" title="4.4 卷积模型的融合"></a>4.4 卷积模型的融合</h5><p>这部分探讨不同模型融合的性能，计算多个模型的 soft-max 分类概率的平均值来对它们的输出进行组合，由于模型的互补性，性能有所提高，这也用于比赛的最佳结果中。<br>表 6 展示多个卷积网络融合的结果<br><img src="5.png" alt></p>
+<h5 id="4-5-与当前最好算法的比较"><a href="#4-5-与当前最好算法的比较" class="headerlink" title="4.5 与当前最好算法的比较"></a>4.5 与当前最好算法的比较</h5><p>表七展示对当前最好算法的对比<br><img src="6.png" alt></p>
+<h4 id="5结论"><a href="#5结论" class="headerlink" title="5结论"></a>5结论</h4><p>本文评估了非常深的卷积网络在大规模图像分类上的性能。结果表明深度有利于分类准确率的提升。附录中展示了模型的泛化能力，再次确认了视觉表达中深度的重要性。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line">vgg16.py</span><br><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> inspect </span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">VGG_MEAN = [<span class="number">103.939</span>, <span class="number">116.779</span>, <span class="number">123.68</span>] <span class="comment"># 样本 RGB 的平均值</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vgg16</span><span class="params">()</span>:</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, vgg16_path=None)</span>:</span></span><br><span class="line"><span class="keyword">if</span> vgg16_path <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">vgg16_path = os.path.join(os.getcwd(),<span class="string">"vgg16.npy"</span>) <span class="comment"># os.getcwd() 方法用于返回当前工作目录。</span></span><br><span class="line">print(vgg16_path)</span><br><span class="line">self.data_dict = np.load(vgg16_path, encoding=<span class="string">'latin1'</span>).item() <span class="comment"># 遍历其内键值对，导入模型参数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> self.data_dict: <span class="comment">#遍历 data_dict 中的每个键</span></span><br><span class="line"><span class="keyword">print</span> x </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, images)</span>:</span> </span><br><span class="line"><span class="comment"># plt.figure("process pictures")</span></span><br><span class="line">print(<span class="string">"build model started"</span>)</span><br><span class="line">start_time = time.time() <span class="comment"># 获取前向传播的开始时间</span></span><br><span class="line">rgb_scaled = images * <span class="number">255.0</span> <span class="comment"># 逐像素乘以 255.0（根据原论文所述的初始化步骤）</span></span><br><span class="line"><span class="comment"># 从 GRB 转换色彩通道到 BGR，也可使用 cv 中的 GRBtoBGR</span></span><br><span class="line">red, green, blue = tf.split(rgb_scaled,<span class="number">3</span>,<span class="number">3</span>)</span><br><span class="line"><span class="keyword">assert</span> red.get_shape().as_list()[<span class="number">1</span>:] == [<span class="number">224</span>, <span class="number">224</span>, <span class="number">1</span>]</span><br><span class="line"><span class="keyword">assert</span> green.get_shape().as_list()[<span class="number">1</span>:] == [<span class="number">224</span>, <span class="number">224</span>, <span class="number">1</span>]</span><br><span class="line"><span class="keyword">assert</span> blue.get_shape().as_list()[<span class="number">1</span>:] == [<span class="number">224</span>, <span class="number">224</span>, <span class="number">1</span>]</span><br><span class="line"><span class="comment"># 以上 assert 都是加入断言，用来判断每个操作后的维度变化是否和预期一致 </span></span><br><span class="line">bgr = tf.concat([</span><br><span class="line">blue - VGG_MEAN[<span class="number">0</span>],</span><br><span class="line">green - VGG_MEAN[<span class="number">1</span>],</span><br><span class="line">red - VGG_MEAN[<span class="number">2</span>]],<span class="number">3</span>)</span><br><span class="line"><span class="comment"># 逐样本减去每个通道的像素平均值，这种操作可以移除图像的平均亮度值，该方法常用在灰度图像上</span></span><br><span class="line"><span class="keyword">assert</span> bgr.get_shape().as_list()[<span class="number">1</span>:] == [<span class="number">224</span>, <span class="number">224</span>, <span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 接下来构建 VGG 的 16 层网络（包含 5 段卷积，3 层全连接），并逐层根据命名空间读取网络参数</span></span><br><span class="line"><span class="comment"># 第一段卷积，含有两个卷积层，后面接最大池化层，用来缩小图片尺寸</span></span><br><span class="line">self.conv1_1 = self.conv_layer(bgr, <span class="string">"conv1_1"</span>)</span><br><span class="line"><span class="comment"># 传入命名空间的 name，来获取该层的卷积核和偏置，并做卷积运算，最后返回经过经过激活函数后的值</span></span><br><span class="line">self.conv1_2 = self.conv_layer(self.conv1_1, <span class="string">"conv1_2"</span>)</span><br><span class="line"><span class="comment"># 根据传入的 pooling 名字对该层做相应的池化操作</span></span><br><span class="line">self.pool1 = self.max_pool_2x2(self.conv1_2, <span class="string">"pool1"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下面的前向传播过程与第一段同理</span></span><br><span class="line"><span class="comment"># 第二段卷积，同样包含两个卷积层，一个最大池化层</span></span><br><span class="line">self.conv2_1 = self.conv_layer(self.pool1, <span class="string">"conv2_1"</span>)</span><br><span class="line">self.conv2_2 = self.conv_layer(self.conv2_1, <span class="string">"conv2_2"</span>)</span><br><span class="line">self.pool2 = self.max_pool_2x2(self.conv2_2, <span class="string">"pool2"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第三段卷积，包含三个卷积层，一个最大池化层</span></span><br><span class="line">self.conv3_1 = self.conv_layer(self.pool2, <span class="string">"conv3_1"</span>)</span><br><span class="line">self.conv3_2 = self.conv_layer(self.conv3_1, <span class="string">"conv3_2"</span>)</span><br><span class="line">self.conv3_3 = self.conv_layer(self.conv3_2, <span class="string">"conv3_3"</span>)</span><br><span class="line">self.pool3 = self.max_pool_2x2(self.conv3_3, <span class="string">"pool3"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第四段卷积，包含三个卷积层，一个最大池化层</span></span><br><span class="line">self.conv4_1 = self.conv_layer(self.pool3, <span class="string">"conv4_1"</span>)</span><br><span class="line">self.conv4_2 = self.conv_layer(self.conv4_1, <span class="string">"conv4_2"</span>) </span><br><span class="line">self.conv4_3 = self.conv_layer(self.conv4_2, <span class="string">"conv4_3"</span>)</span><br><span class="line">self.pool4 = self.max_pool_2x2(self.conv4_3, <span class="string">"pool4"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第五段卷积，包含三个卷积层，一个最大池化层</span></span><br><span class="line">self.conv5_1 = self.conv_layer(self.pool4, <span class="string">"conv5_1"</span>)</span><br><span class="line">self.conv5_2 = self.conv_layer(self.conv5_1, <span class="string">"conv5_2"</span>)</span><br><span class="line">self.conv5_3 = self.conv_layer(self.conv5_2, <span class="string">"conv5_3"</span>)</span><br><span class="line">self.pool5 = self.max_pool_2x2(self.conv5_3, <span class="string">"pool5"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第六层全连接</span></span><br><span class="line">self.fc6 = self.fc_layer(self.pool5, <span class="string">"fc6"</span>) <span class="comment"># 根据命名空间 name 做加权求和运算</span></span><br><span class="line"><span class="keyword">assert</span> self.fc6.get_shape().as_list()[<span class="number">1</span>:] == [<span class="number">4096</span>] <span class="comment"># 4096 是该层输出后的长度</span></span><br><span class="line">self.relu6 = tf.nn.relu(self.fc6) <span class="comment"># 经过 relu 激活函数</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第七层全连接，和上一层同理</span></span><br><span class="line">self.fc7 = self.fc_layer(self.relu6, <span class="string">"fc7"</span>)</span><br><span class="line">self.relu7 = tf.nn.relu(self.fc7)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第八层全连接</span></span><br><span class="line">self.fc8 = self.fc_layer(self.relu7, <span class="string">"fc8"</span>)</span><br><span class="line"><span class="comment"># 经过最后一层的全连接后，再做 softmax 分类，得到属于各类别的概率</span></span><br><span class="line">self.prob = tf.nn.softmax(self.fc8, name=<span class="string">"prob"</span>)</span><br><span class="line"></span><br><span class="line">end_time = time.time() <span class="comment"># 得到前向传播的结束时间</span></span><br><span class="line">print((<span class="string">"time consuming: %f"</span> % (end_time-start_time)))</span><br><span class="line"></span><br><span class="line">self.data_dict = <span class="literal">None</span> <span class="comment"># 清空本次读取到的模型参数字典</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义卷积运算 </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">conv_layer</span><span class="params">(self, x, name)</span>:</span> </span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(name): <span class="comment"># 根据命名空间找到对应卷积层的网络参数 </span></span><br><span class="line">w = self.get_conv_filter(name) <span class="comment"># 读到该层的卷积核</span></span><br><span class="line">conv = tf.nn.conv2d(x, w, [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], padding=<span class="string">'SAME'</span>) <span class="comment"># 卷积计算</span></span><br><span class="line">conv_biases = self.get_bias(name) <span class="comment"># 读到偏置项</span></span><br><span class="line">result = tf.nn.relu(tf.nn.bias_add(conv, conv_biases)) <span class="comment"># 加上偏置，并做激活计算</span></span><br><span class="line"><span class="keyword">return</span> result </span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义获取卷积核的函数 </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_conv_filter</span><span class="params">(self, name)</span>:</span> </span><br><span class="line"><span class="comment"># 根据命名空间 name 从参数字典中取到对应的卷积核</span></span><br><span class="line"><span class="keyword">return</span> tf.constant(self.data_dict[name][<span class="number">0</span>], name=<span class="string">"filter"</span>) </span><br><span class="line"><span class="comment"># 定义获取偏置项的函数 </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_bias</span><span class="params">(self, name)</span>:</span> </span><br><span class="line"><span class="comment"># 根据命名空间 name 从参数字典中取到对应的卷积核</span></span><br><span class="line"><span class="keyword">return</span> tf.constant(self.data_dict[name][<span class="number">1</span>], name=<span class="string">"biases"</span>) </span><br><span class="line"><span class="comment"># 定义最大池化操作 </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max_pool_2x2</span><span class="params">(self, x, name)</span>:</span></span><br><span class="line"><span class="keyword">return</span> tf.nn.max_pool(x, ksize=[<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>], strides=[<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>], padding=<span class="string">'SAME'</span>, name=name) </span><br><span class="line"><span class="comment"># 定义全连接层的前向传播计算 </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fc_layer</span><span class="params">(self, x, name)</span>:</span> </span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(name): <span class="comment"># 根据命名空间 name 做全连接层的计算 </span></span><br><span class="line">shape = x.get_shape().as_list() <span class="comment"># 获取该层的维度信息列表 </span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"fc_layer shape "</span>,shape dim = <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> shape[<span class="number">1</span>:]: </span><br><span class="line">dim *= i <span class="comment"># 将每层的维度相乘 </span></span><br><span class="line"><span class="comment"># 改变特征图的形状，也就是将得到的多维特征做拉伸操作，只在进入第六层全连接层做该操作</span></span><br><span class="line">x = tf.reshape(x, [<span class="number">-1</span>, dim]) </span><br><span class="line">w = self.get_fc_weight(name)<span class="comment"># 读到权重值</span></span><br><span class="line">b = self.get_bias(name) <span class="comment"># 读到偏置项值 </span></span><br><span class="line"></span><br><span class="line">result = tf.nn.bias_add(tf.matmul(x, w), b) <span class="comment"># 对该层输入做加权求和，再加上偏置</span></span><br><span class="line"><span class="keyword">return</span> result </span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义获取权重的函数 </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_fc_weight</span><span class="params">(self, name)</span>:</span> <span class="comment"># 根据命名空间 name 从参数字典中取到对应的权重 </span></span><br><span class="line"><span class="keyword">return</span> tf.constant(self.data_dict[name][<span class="number">0</span>], name=<span class="string">"weights"</span>)</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/08/mnist数据集手写体识别/" rel="next" title="mnist数据集手写体识别">
+                <i class="fa fa-chevron-left"></i> mnist数据集手写体识别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/yasuo.png" alt="xuli">
+            
+              <p class="site-author-name" itemprop="name">xuli</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/619496775" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:x619496775@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/yourname" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://youtube.com/yourname" target="_blank" title="YouTube">
+                      
+                        <i class="fa fa-fw fa-youtube"></i>YouTube</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/yourname" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-介绍"><span class="nav-number">1.1.</span> <span class="nav-text">1.介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-卷积配置"><span class="nav-number">1.2.</span> <span class="nav-text">2.卷积配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1架构"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1架构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2详细配置"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2详细配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3讨论"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3讨论</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1训练"><span class="nav-number">1.2.4.</span> <span class="nav-text">3.1训练</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-测试"><span class="nav-number">1.2.5.</span> <span class="nav-text">3.2 测试</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-分类实验"><span class="nav-number">1.3.</span> <span class="nav-text">4.分类实验</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1单尺寸评估"><span class="nav-number">1.3.1.</span> <span class="nav-text">4.1单尺寸评估</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2多尺寸评估"><span class="nav-number">1.3.2.</span> <span class="nav-text">4.2多尺寸评估</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-多重裁剪与密集网络评估"><span class="nav-number">1.3.3.</span> <span class="nav-text">4.3 多重裁剪与密集网络评估</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-4-卷积模型的融合"><span class="nav-number">1.3.4.</span> <span class="nav-text">4.4 卷积模型的融合</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-5-与当前最好算法的比较"><span class="nav-number">1.3.5.</span> <span class="nav-text">4.5 与当前最好算法的比较</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5结论"><span class="nav-number">1.4.</span> <span class="nav-text">5结论</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xuli</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
